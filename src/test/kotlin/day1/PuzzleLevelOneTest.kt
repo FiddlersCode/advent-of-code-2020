@@ -4,7 +4,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class PuzzleTest {
+class PuzzleLevelOneTest {
     private lateinit var puzzle: Puzzle
 
     @BeforeTest
