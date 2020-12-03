@@ -12,3 +12,8 @@ data class GridMap(
 data class Route(
     val positions: List<Position>
 )
+
+data class Move(
+    val indicesToMove: Int,
+    val linesToMove: Int
+)

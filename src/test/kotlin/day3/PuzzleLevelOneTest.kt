@@ -5,6 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class PuzzleLevelOneTest {
+    val levelOneMove = Move(3, 1)
     private lateinit var puzzleLevelOne: PuzzleLevelOne
 
     @BeforeTest
@@ -34,7 +35,7 @@ class PuzzleLevelOneTest {
             lineNumber = 0,
             indexInLine = 0
         )
-        val actual = puzzleLevelOne.move(currentPosition)
+        val actual = puzzleLevelOne.move(currentPosition, levelOneMove)
         val expected = Position(
             lineNumber = 1,
             indexInLine = 3
@@ -48,7 +49,7 @@ class PuzzleLevelOneTest {
             lineNumber = 0,
             indexInLine = 0
         )
-        val actual = puzzleLevelOne.getRoute(startingPosition, 3)
+        val actual = puzzleLevelOne.getRoute(startingPosition, 3, levelOneMove)
         val expected = Route(
             listOf(
                 startingPosition,
@@ -126,7 +127,22 @@ class PuzzleLevelOneTest {
     @Test
     fun solveTest() {
         val input = "day3/input.log"
-        val actual = puzzleLevelOne.solve(input)
+        val actual = puzzleLevelOne.solve(input, levelOneMove)
+        val expected = 223
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun solveLevel2Test() {
+        val input = "day3/input.log"
+        val moves = listOf(
+//            Move(1, 1),
+//            Move(3, 1),
+//            Move(5, 1),
+//            Move(7, 1),
+            Move(1, 2)
+        )
+        val actual = puzzleLevelOne.solveLevelTwo(input, moves)
         val expected = 223
         assertEquals(expected, actual)
     }
