@@ -1,8 +1,13 @@
 package day3
 
 data class Position(
-    val lineNumber: Int,
-    val indexInLine: Int
+    val indexInLine: Int,
+    val lineNumber: Int
+)
+
+data class Move(
+    val indicesToMove: Int,
+    val linesToMove: Int
 )
 
 data class GridMap(
@@ -11,9 +16,4 @@ data class GridMap(
 
 data class Route(
     val positions: List<Position>
-)
-
-data class Move(
-    val indicesToMove: Int,
-    val linesToMove: Int
 )

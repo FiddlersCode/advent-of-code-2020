@@ -3,26 +3,21 @@ package day3
 import java.io.File
 
 class PuzzleLevelOne {
+    private val startingPosition = Position(0, 0)
 
     fun solveLevelTwo(inputFileName: String, moves: List<Move>): Int {
         val treeCounts = moves.map {
             solve(inputFileName, it)
         }
-        return treeCounts.reduce { a, c -> a * c}
+        return treeCounts.reduce { a, c -> a * c }
     }
 
     fun solve(inputFileName: String, move: Move): Int {
         val file = ClassLoader.getSystemClassLoader().getResource(inputFileName).file
         val gridMap = GridMap(readInputFile(file))
-        val route: Route = getRoute(Position(0, 0), gridMap.mapLines.size - 1, move)
-        return if (move.linesToMove == 2) {
-            val newPositions = route.positions.toMutableList()
-            newPositions.removeAt(newPositions.size - 1)
-            val newRoute = Route(newPositions.toList())
-            countTrees(gridMap, newRoute)
-        } else {
-            countTrees(gridMap, route)
-        }
+        val numberOfMoves = gridMap.mapLines.size - 1
+        val route: Route = getRoute(gridMap, startingPosition, numberOfMoves, move)
+        return countTrees(gridMap, route)
     }
 
     fun countTrees(gridMap: GridMap, route: Route): Int {
@@ -35,21 +30,24 @@ class PuzzleLevelOne {
         return trees
     }
 
-    fun getRoute(startingPosition: Position, numberOfMoves: Int, move: Move): Route {
+    fun getRoute(gridMap: GridMap, startingPosition: Position, numberOfMoves: Int, move: Move): Route {
         val positions = mutableListOf(startingPosition)
         for (i in 1..numberOfMoves) {
-            val newPosition = move(positions[i - 1], move)
-            positions.add(newPosition)
+            if (positions.last().lineNumber < gridMap.mapLines.size - move.linesToMove) {
+                val newPosition = nextPosition(positions[i - 1], move)
+                positions.add(newPosition)
+            }
         }
         return Route(positions)
+
     }
 
     fun isTree(input: Char) = input == "#".single()
 
-    fun move(currentPosition: Position, move: Move): Position {
+    fun nextPosition(currentPosition: Position, move: Move): Position {
         return Position(
-            currentPosition.lineNumber + move.linesToMove,
-            currentPosition.indexInLine + move.indicesToMove
+            indexInLine = currentPosition.indexInLine + move.indicesToMove,
+            lineNumber = currentPosition.lineNumber + move.linesToMove
         )
     }
 
