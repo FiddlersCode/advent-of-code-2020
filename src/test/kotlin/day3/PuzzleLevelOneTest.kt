@@ -127,7 +127,7 @@ class PuzzleLevelOneTest {
     fun solveTest() {
         val input = "day3/input.log"
         val actual = puzzleLevelOne.solve(input)
-        val expected = 465
+        val expected = 223
         assertEquals(expected, actual)
     }
 }

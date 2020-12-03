@@ -21,14 +21,21 @@ class PuzzleLevelOne {
         return trees
     }
 
-    fun currentCharInGrid(gridMap: GridMap, position: Position): Char {
-        val currentLine = gridMap.mapLines[position.lineNumber]
-        return currentCharInLine(currentLine, position)
+    fun getRoute(startingPosition: Position, numberOfMoves: Int): Route {
+        val positions = mutableListOf(startingPosition)
+        for (i in 1..numberOfMoves) {
+            positions.add(move(positions[i - 1]))
+        }
+        return Route(positions)
     }
 
-    private fun currentCharInLine(currentLine: String, position: Position): Char {
-        val newLine = repeatLinePattern(currentLine, 200)
-        return newLine[position.indexInLine]
+    fun isTree(input: Char) = input == "#".single()
+
+    fun move(currentPosition: Position, linesToMove: Int = 1, indicesToMove: Int = 3): Position {
+        return Position(
+            currentPosition.lineNumber + linesToMove,
+            currentPosition.indexInLine + indicesToMove
+        )
     }
 
     fun repeatLinePattern(mapLine: String, numberOfCopies: Int = 1): String {
@@ -39,23 +46,15 @@ class PuzzleLevelOne {
         return builder.toString()
     }
 
-    fun getRoute(startingPosition: Position, numberOfMoves: Int): Route {
-        val positions = mutableListOf(startingPosition)
-        for (i in 1..numberOfMoves) {
-            positions.add(move(positions[i - 1]))
-        }
-        return Route(positions)
+    private fun currentCharInGrid(gridMap: GridMap, position: Position): Char {
+        val currentLine = gridMap.mapLines[position.lineNumber]
+        return currentCharInLine(currentLine, position)
     }
 
-    fun move(currentPosition: Position): Position {
-        return Position(currentPosition.lineNumber + 1, currentPosition.indexInLine + 3)
+    private fun currentCharInLine(currentLine: String, position: Position): Char {
+        val newLine = repeatLinePattern(currentLine, position.indexInLine)
+        return newLine[position.indexInLine]
     }
 
-    fun isTree(input: Char): Boolean {
-        return input == "#".single()
-    }
-
-    private fun readInputFile(filePath: String): List<String> {
-        return File(filePath).readLines()
-    }
+    private fun readInputFile(filePath: String): List<String> = File(filePath).readLines()
 }
