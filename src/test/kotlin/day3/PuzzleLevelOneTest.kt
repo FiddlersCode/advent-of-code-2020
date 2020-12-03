@@ -197,7 +197,7 @@ class PuzzleLevelOneTest {
         val input = "day3/input.log"
         val move = Move(1, 1)
         val actual = puzzleLevelOne.solveLevelTwo(input, listOf(move))
-        val expected = 223
+        val expected = 58
         assertEquals(expected, actual)
     }
 
@@ -205,14 +205,14 @@ class PuzzleLevelOneTest {
     fun solveLevel2Test() {
         val input = "day3/input.log"
         val moves = listOf(
-//            Move(1, 1),
+            Move(1, 1),
             Move(3, 1),
             Move(5, 1),
             Move(7, 1),
             Move(1, 2)
         )
-        val actual = puzzleLevelOne.solveLevelTwo(input, moves)
-        val expected = 223
+        val actual: Int = puzzleLevelOne.solveLevelTwo(input, moves)
+        val expected: Int = 3517401300.toInt()
         assertEquals(expected, actual)
     }
 }
