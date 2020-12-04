@@ -87,16 +87,154 @@ class PuzzleLevelOneTest {
     }
 
     @Test
-    fun solveTest() {
-        val input = "day4/input.log"
-        val actual = puzzleLevelOne.solve(input)
-        val expected = 223
+    fun isValidHairColorTest(){
+        val input = "#888785"
+        val actual = puzzleLevelOne.isValidHairColor(input)
+        val expected = true
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidHairColorTest2(){
+        val input = "#888X85"
+        val actual = puzzleLevelOne.isValidHairColor(input)
+        val expected = false
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidHairColorTest3(){
+        val input = "3888885"
+        val actual = puzzleLevelOne.isValidHairColor(input)
+        val expected = false
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidHairColorTest4(){
+        val input = "#88A8F5"
+        val actual = puzzleLevelOne.isValidHairColor(input)
+        val expected = false
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidHairColorTest5(){
+        val input = "#888af5"
+        val actual = puzzleLevelOne.isValidHairColor(input)
+        val expected = true
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidHeightTest1(){
+        val input = "149cm"
+        val actual = puzzleLevelOne.isValidHeight(input)
+        val expected = false
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidHeightTest2(){
+        val input = "150cm"
+        val actual = puzzleLevelOne.isValidHeight(input)
+        val expected = true
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidHeightTest3(){
+        val input = "193cm"
+        val actual = puzzleLevelOne.isValidHeight(input)
+        val expected = true
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidHeightTest4(){
+        val input = "194cm"
+        val actual = puzzleLevelOne.isValidHeight(input)
+        val expected = false
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidPidTest1() {
+        val input = "88fsdfsad"
+        val actual = puzzleLevelOne.isValidPID(input)
+        val expected = false
         assertEquals(expected, actual)
     }
 
 
     @Test
-    fun solveLevel2Test() {
+    fun isValidPidTest2() {
+        val input = "000000000"
+        val actual = puzzleLevelOne.isValidPID(input)
+        val expected = true
+        assertEquals(expected, actual)
+    }
 
+    @Test
+    fun isValidPidTest3() {
+        val input = "0000000b0"
+        val actual = puzzleLevelOne.isValidPID(input)
+        val expected = false
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidHeightTest5(){
+        val input = "59in"
+        val actual = puzzleLevelOne.isValidHeight(input)
+        val expected = true
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidBirthYear1(){
+        val input = "1919"
+        val actual = puzzleLevelOne.isValidBirthYear(input)
+        val expected = false
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidBirthYear2(){
+        val input = "1920"
+        val actual = puzzleLevelOne.isValidBirthYear(input)
+        val expected = true
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidBirthYear3(){
+        val input = "2002"
+        val actual = puzzleLevelOne.isValidBirthYear(input)
+        val expected = true
+        assertEquals(expected, actual)
+    }
+    @Test
+    fun isValidBirthYear4(){
+        val input = "2003"
+        val actual = puzzleLevelOne.isValidBirthYear(input)
+        val expected = false
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun solveTest() {
+        val input = "day4/input.log"
+        val actual = puzzleLevelOne.solve(input)
+        val expected = 256
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun solveLevel2Test() {
+        val input = "day4/input.log"
+        val actual = puzzleLevelOne.solve2(input)
+        val expected = 223
+        assertEquals(expected, actual)
     }
 }
