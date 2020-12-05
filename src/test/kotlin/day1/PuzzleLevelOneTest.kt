@@ -61,6 +61,22 @@ class PuzzleLevelOneTest {
     }
 
     @Test
+    fun levelThreeMatchTest1() {
+        val input: List<Int> = listOf(843, 239, 1992, 33, 8)
+        val actual = puzzle.levelThreeMatch(20, input)
+        val expected = listOf(20, 1992, 8)
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun levelThreeMatchTest2() {
+        val input: List<Int> = listOf(33, 8, 20, 20, 8)
+        val actual = puzzle.levelThreeMatch(1992, input)
+        val expected = listOf(1992, 8, 20)
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun solveRealInputThreeNumbers() {
         val inputFile = "day1/input.log"
         val actual: Int = puzzle.solve(inputFile, 2)

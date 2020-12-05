@@ -35,15 +35,15 @@ class Puzzle(private val targetYear: Int = 2020) {
         return numbersAfterCurrentNumber.any { it + number == targetYear }
     }
 
-    private fun levelThreeMatch(number: Int, input: List<Int>): List<Int> {
+    fun levelThreeMatch(number0: Int, input: List<Int>, targetYear: Int = this.targetYear): List<Int> {
         val result: MutableList<Int> = mutableListOf()
         for (i in 0..input.size - 3) {
-            val num1 = input[i + 1]
+            val number1 = input[i + 1]
             for (j in 0..input.size - 3) {
-                val num2 = input[j + 2]
-                val addition = number + num1 + num2
+                val number2 = input[j + 2]
+                val addition = number0 + number1 + number2
                 if (input.any { addition == targetYear }) {
-                    result.addAll(listOf(number, num1, num2))
+                    result.addAll(listOf(number0, number1, number2))
                 }
             }
 
