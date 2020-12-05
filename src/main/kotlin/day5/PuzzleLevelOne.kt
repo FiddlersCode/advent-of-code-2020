@@ -11,14 +11,26 @@ class PuzzleLevelOne {
     private val highestColumnIndex: Int = 7
 
     fun solve(inputFileName: String): Int {
+        val seatIDs = getSeatIDs(inputFileName)
+        return seatIDs.max()!!
+    }
+
+    private fun getSeatIDs(inputFileName: String): List<Int> {
         val file = ClassLoader.getSystemClassLoader().getResource(inputFileName).file
         val lines = readInputFile(file)
         val parsedLogLines = parseLogLines(lines)
         val rowsAndColumns = computeRowsAndColumns(parsedLogLines)
-        val seatIDs = computeSeatIDs(rowsAndColumns)
-        return seatIDs.max()!!
+        val seatIDs = computeSeatIDs(rowsAndColumns).sorted()
+        return seatIDs
     }
 
+    fun solve2(inputFileName: String): Int? {
+        val seatIDs = getSeatIDs(inputFileName)
+        seatIDs.forEachIndexed {index: Int,  seatID: Int ->
+            if (seatID + 1 != seatIDs[index + 1]) return seatID + 1
+        }
+        return null
+    }
 
     fun computeRowsAndColumns(parsedLogLines: List<ParsedLogLine>): List<BinarySearchResult> {
         return parsedLogLines.map { computeRowAndColumn(it)}

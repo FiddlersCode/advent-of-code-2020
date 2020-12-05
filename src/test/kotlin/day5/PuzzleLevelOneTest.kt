@@ -189,15 +189,15 @@ class PuzzleLevelOneTest {
     fun solveTest() {
         val input = "day5/input.log"
         val actual = puzzleLevelOne.solve(input)
-        val expected = 256
+        val expected = 987
         assertEquals(expected, actual)
     }
 
     @Test
     fun solveLevel2Test() {
-//        val input = "day5/input.log"
-//        val actual = puzzleLevelOne.solve(input, 2)
-//        val expected = 198
-//        assertEquals(expected, actual)
+        val input = "day5/input.log"
+        val actual = puzzleLevelOne.solve2(input)
+        val expected = 603
+        assertEquals(expected, actual)
     }
 }
