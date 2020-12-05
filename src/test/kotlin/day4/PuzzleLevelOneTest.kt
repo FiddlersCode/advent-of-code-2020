@@ -70,7 +70,7 @@ class PuzzleLevelOneTest {
     @Test
     fun solveTest() {
         val input = "day4/input.log"
-        val actual = puzzleLevelOne.solve(input)
+        val actual = puzzleLevelOne.solve(input, 1)
         val expected = 256
         assertEquals(expected, actual)
     }
@@ -78,7 +78,7 @@ class PuzzleLevelOneTest {
     @Test
     fun solveLevel2Test() {
         val input = "day4/input.log"
-        val actual = puzzleLevelOne.solve2(input)
+        val actual = puzzleLevelOne.solve(input, 2)
         val expected = 198
         assertEquals(expected, actual)
     }

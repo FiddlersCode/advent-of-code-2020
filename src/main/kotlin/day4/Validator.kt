@@ -14,19 +14,33 @@ class Validator(
     private val validRanges: ValidRanges = ValidRanges()
 ) {
 
-    fun isValid(logEntry: Map<PassportField, String>): Boolean {
+    fun isValidLevel1(logEntry: Map<PassportField, String>): Boolean {
         return logEntry.keys.containsAll(requiredFields)
     }
 
-    fun isValid2(logEntry: Map<PassportField, String>): Boolean {
-        val birthYear = logEntry[PassportField.BYR] ?: return false
-        return logEntry[PassportField.BYR] != null && isValidBirthYear(birthYear)
-            && logEntry[PassportField.IYR]?.toInt()?.let { isValidIssueYear(it) } ?: false
-            && logEntry[PassportField.EYR]?.toInt()?.let { isValidExpirationYear(it) } ?: false
-            && logEntry[PassportField.HGT]?.let { isValidHeight(it) } ?: false
-            && logEntry[PassportField.HCL]?.let { isValidHairColor(it) } ?: false
-            && logEntry[PassportField.ECL]?.let { isValidEyeColor(it) } ?: false
-            && logEntry[PassportField.PID] != null && isValidPID(logEntry[PassportField.PID].toString())
+    fun isValidLevel2(logEntry: Map<PassportField, String>): Boolean {
+        if (!isValidLevel1(logEntry)) { return false }
+
+        val invalidFields = requiredFields.filterNot {
+            passportField ->
+            val currentField = logEntry[passportField] ?: throw Exception("Cannot find required field $passportField")
+            isValidField(passportField, currentField)
+        }
+
+        return invalidFields.isEmpty()
+    }
+
+    private fun isValidField(requiredField: PassportField, input: String): Boolean {
+        return when (requiredField) {
+            PassportField.BYR -> isValidBirthYear(input)
+            PassportField.ECL -> isValidEyeColor(input)
+            PassportField.EYR -> isValidExpirationYear(input.toInt())
+            PassportField.IYR -> isValidIssueYear(input.toInt())
+            PassportField.HCL -> isValidHairColor(input)
+            PassportField.HGT -> isValidHeight(input)
+            PassportField.PID -> isValidPID(input)
+            else -> false
+        }
     }
 
     fun isValidBirthYear(input: String): Boolean {

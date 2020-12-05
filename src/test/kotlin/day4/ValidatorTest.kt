@@ -24,8 +24,40 @@ class ValidatorTest {
             PassportField.IYR to "2017",
             PassportField.PID to "860033327"
         )
-        val actual = validator.isValid(logEntry)
+        val actual = validator.isValidLevel1(logEntry)
         val expected = true
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValidTest2() {
+        val logEntry: Map<PassportField, String> = mapOf(
+            PassportField.BYR to "1937",
+            PassportField.ECL to "gry",
+            PassportField.EYR to "2020",
+            PassportField.HCL to "#fffffd",
+            PassportField.HGT to "183cm",
+            PassportField.IYR to "2017",
+            PassportField.PID to "860033327"
+        )
+        val actual = validator.isValidLevel1(logEntry)
+        val expected = true
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun isValid2Test1() {
+        val logEntry: Map<PassportField, String> = mapOf(
+            PassportField.BYR to "1837",
+            PassportField.ECL to "gry",
+            PassportField.EYR to "2020",
+            PassportField.HCL to "#fffffd",
+            PassportField.HGT to "183cm",
+            PassportField.IYR to "2017",
+            PassportField.PID to "860033327"
+        )
+        val actual = validator.isValidLevel2(logEntry)
+        val expected = false
         assertEquals(expected, actual)
     }
 

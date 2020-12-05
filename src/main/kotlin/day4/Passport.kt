@@ -1,7 +1,7 @@
 package day4
 
 enum class PassportField{
-    BYR, IYR, EYR, HGT, HCL, ECL, PID, CID
+    BYR, CID, ECL, EYR, IYR, HCL, HGT, PID,
 }
 
 data class ValidRanges(

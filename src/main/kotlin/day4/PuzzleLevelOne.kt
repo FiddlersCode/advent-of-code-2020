@@ -2,20 +2,16 @@ package day4
 
 import java.io.File
 
-class PuzzleLevelOne(val validator: Validator = Validator()) {
-    fun solve(inputFileName: String): Int {
+class PuzzleLevelOne(private val validator: Validator = Validator()) {
+    fun solve(inputFileName: String, level: Int): Int {
         val file = ClassLoader.getSystemClassLoader().getResource(inputFileName).file
         val lines = readInputFile(file)
         val parsedLines = parseLogLines(lines)
-        return parsedLines.filter { validator.isValid(it) }.size
-    }
-
-    fun solve2(inputFileName: String): Int {
-        val file = ClassLoader.getSystemClassLoader().getResource(inputFileName).file
-        val lines = readInputFile(file)
-        val parsedLines = parseLogLines(lines)
-        val validLines =  parsedLines.filter { validator.isValid2(it) }
-        return validLines.size
+        return if (level == 1) {
+            parsedLines.filter { validator.isValidLevel1(it) }.size
+        } else {
+            parsedLines.filter { validator.isValidLevel2(it) }.size
+        }
     }
 
     fun parseLogLine(logline: String): Map<PassportField, String> {
@@ -33,7 +29,7 @@ class PuzzleLevelOne(val validator: Validator = Validator()) {
 
     fun parseLogLines(logLines: List<String>): List<Map<PassportField, String>> {
         val logList: MutableList<String> = mutableListOf(logLines[0])
-        logLines.forEachIndexed { index: Int, line: String ->
+        logLines.forEach { line: String ->
             if (line.isBlank()) {
                 logList.add(line)
             } else {
@@ -50,7 +46,7 @@ class PuzzleLevelOne(val validator: Validator = Validator()) {
         return passportFields
     }
 
-    private fun getKey(input: String, colonIndex: Int): String{
+    private fun getKey(input: String, colonIndex: Int): String {
         return input.substring(IntRange(0, colonIndex))
     }
 
