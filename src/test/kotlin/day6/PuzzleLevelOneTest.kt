@@ -104,6 +104,65 @@ class PuzzleLevelOneTest {
     }
 
     @Test
+    fun extractGroupsTest1() {
+        val input = listOf(
+            "a",
+            "b",
+            "q",
+            "",
+            "de",
+            "df",
+            "",
+            "xyz",
+            ""
+        )
+
+        val actual = puzzleLevelOne.extractGroups(input)
+        val expected = listOf(
+            SingleGroupAnswers(
+                mutableListOf(
+                    PersonAnswers(
+                        listOf
+                        (
+                            PersonAnswer("a"),
+                            PersonAnswer("b"),
+                            PersonAnswer("q")
+                        )
+                    )
+                )
+            ),
+            SingleGroupAnswers(
+                mutableListOf(
+                    PersonAnswers(
+                        listOf(
+                            PersonAnswer("d"),
+                            PersonAnswer("e")
+                        )
+                    ),
+                    PersonAnswers(
+                        listOf(
+                            PersonAnswer("d"),
+                            PersonAnswer("f")
+                        )
+                    )
+                )
+            ),
+            SingleGroupAnswers(
+                mutableListOf(
+                    PersonAnswers(
+                        listOf(
+                            PersonAnswer("x"),
+                            PersonAnswer("y"),
+                            PersonAnswer("z")
+                        )
+                    )
+                )
+            )
+        )
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun countNumberOfGroupAnswersTest1() {
         val input = listOf(9, 8, 3, 1)
         val actual = puzzleLevelOne.countNumberOfGroupAnswers(input)
@@ -112,11 +171,18 @@ class PuzzleLevelOneTest {
     }
 
     @Test
-    fun solveWithSmallInputTest() {
+    fun solveLevel1WithSmallInputTest() {
         val input = "day6/inputSmall.log"
         val actual = puzzleLevelOne.solve(input, 1)
-        // no 6743
         val expected = 45
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun solveLevel2WithSmallInputTest() {
+        val input = "day6/inputSmaller.log"
+        val actual = puzzleLevelOne.solve(input, 2)
+        val expected = 2
         assertEquals(expected, actual)
     }
 
@@ -132,7 +198,7 @@ class PuzzleLevelOneTest {
     fun solveLevel2Test() {
         val input = "day6/input.log"
         val actual = puzzleLevelOne.solve(input, 2)
-        val expected = 603
+        val expected = 3445
         assertEquals(expected, actual)
     }
 }

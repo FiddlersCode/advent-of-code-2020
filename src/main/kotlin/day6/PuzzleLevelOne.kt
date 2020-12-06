@@ -7,9 +7,43 @@ class PuzzleLevelOne {
     fun solve(inputFileName: String, level: Int): Int {
         val lines = readFileLines(inputFileName)
         val parsedLogLines = parseLogLines(lines)
-        val groupAnswers = parsedLogLines.map { GroupAnswers(it) }
-        val numberOfGroupAnswers = parsedLogLines.map { GroupAnswers(it).numberOfAnswers }
-        return countNumberOfGroupAnswers(numberOfGroupAnswers)
+        return when (level) {
+            1 -> {
+                val numberOfGroupAnswers = parsedLogLines.map { GroupAnswersLevel1(it).numberOfAnswers }
+                countNumberOfGroupAnswers(numberOfGroupAnswers)
+            }
+            else -> {
+                val singleGroupAnswers: List<SingleGroupAnswers> = extractGroups(lines)
+                val allGroupAnswers = singleGroupAnswers.flatMap { it.questionsAnsweredByAll }
+                val answer = allGroupAnswers.reduce { acc, s -> acc + s }
+                return answer.length
+            }
+        }
+
+    }
+
+    fun extractGroups(logLines: List<String>): List<SingleGroupAnswers> {
+        val singleGroupAnswers = mutableListOf(
+            SingleGroupAnswers(mutableListOf())
+        )
+
+        logLines.forEachIndexed { index: Int, logLine: String ->
+            when {
+                !isGroupDelimiter(logLines, index) && singleGroupAnswers.isNotEmpty() -> {
+                    val personAnswers = PersonAnswers(logLine.map { PersonAnswer(it.toString()) })
+                    singleGroupAnswers.last().personAnswers.add(personAnswers)
+                }
+                isGroupDelimiter(logLines, index) -> {
+                    val newSingleGroup = SingleGroupAnswers(mutableListOf())
+                    singleGroupAnswers.add(newSingleGroup)
+                }
+            }
+        }
+
+        singleGroupAnswers.mapIndexed { index: Int, singleGroupAnswer: SingleGroupAnswers
+            -> singleGroupAnswer.findAllPersonsAnswered(singleGroupAnswers[index].personAnswers)
+        }
+        return singleGroupAnswers.filter { it.personAnswers.isNotEmpty() }
     }
 
     fun parseLogLines(logLines: List<String>): List<String> {
