@@ -3,7 +3,7 @@ package day7
 
 data class Rule(
     val outerBag: Bag,
-    val innerBags: List<InnerBagData>
+    val innerBags: List<Bag>
 )
 
 data class Bag(

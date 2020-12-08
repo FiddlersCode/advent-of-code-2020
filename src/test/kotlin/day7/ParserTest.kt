@@ -71,26 +71,20 @@ class ParserTest {
         val input = listOf("2 shiny gold", "9 faded blue")
         val actual = parser.extractInnerBags(input)
         val expected = listOf(
-            InnerBagData(
-                Bag(
-                    modifier = "shiny",
-                    color = "gold"
-                ),
-                number = 2
+            Bag(
+                modifier = "shiny",
+                color = "gold"
             ),
-            InnerBagData(
-                Bag(
-                    modifier = "faded",
-                    color = "blue"
-                ),
-                number = 9
+            Bag(
+                modifier = "faded",
+                color = "blue"
             )
         )
         assertEquals(expected, actual)
     }
 
     @Test
-    fun parseLogLinesTest1() {
+    fun parseLogLineTest1() {
         val input = "muted yellow bags contain 2 shiny gold bags, 9 faded blue bags."
 
         val actual = parser.parseLogLine(input)
@@ -100,22 +94,52 @@ class ParserTest {
                 color = "yellow"
             ),
             innerBags = listOf(
-                InnerBagData(
-                    bag = Bag(
-                        modifier = "shiny",
-                        color = "gold"
-                    ),
-                    number = 2
+                Bag(
+                    modifier = "shiny",
+                    color = "gold"
                 ),
-                InnerBagData(
-                    bag = Bag(
-                        modifier = "faded",
-                        color = "blue"
-                    ),
-                    number = 9
+                Bag(
+                    modifier = "faded",
+                    color = "blue"
+
                 )
             )
         )
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun parseLogLinesTest1() {
+        val input = listOf(
+            "shiny gold bags contain 1 dark olive bag, 2 vibrant plum bags.",
+            "dark olive bags contain 3 faded blue bags, 4 dotted black bags.",
+            "bright white bags contain 1 shiny gold bag.",
+            "faded blue bags contain no other bags."
+        )
+
+        val actual = parser.parseLogLines(input)
+        val expected = listOf(
+            Rule(
+                outerBag = Bag(modifier = "shiny", color = "gold"),
+                innerBags = listOf(Bag(modifier = "dark", color = "olive"), Bag(modifier = "vibrant", color = "plum")
+                )
+            ),
+            Rule(
+                outerBag = Bag(modifier = "dark", color = "olive"),
+                innerBags = listOf(Bag(modifier = "faded", color = "blue"), Bag(modifier = "dotted", color = "black")
+                )
+            ),
+            Rule(
+                outerBag = Bag(modifier = "bright", color = "white"),
+                innerBags = listOf(Bag(modifier = "shiny", color = "gold")
+                )
+            ),
+            Rule(
+                outerBag = Bag(modifier = "faded", color = "blue"),
+                innerBags = listOf()
+            )
+        )
+
         assertEquals(expected, actual)
     }
 }

@@ -1,15 +1,19 @@
 package day7
 
 class Parser {
+    fun parseLogLines(logLines: List<String>): List<Rule> {
+        return logLines.map { parseLogLine(it) }
+    }
+
     fun parseLogLine(logLine: String): Rule {
         val outerBagProperties = extractOuterBagProperties(logLine)
         val outerBag = extractOuterBag(outerBagProperties)
 
         val innerBagsPropertes: List<String> = extractInnerBagsProperties(logLine)
-        val innerBagData: List<InnerBagData> = extractInnerBags(innerBagsPropertes)
+        val innerBags: List<Bag> = extractInnerBags(innerBagsPropertes).filterNotNull()
         return Rule(
             outerBag = outerBag,
-            innerBags = innerBagData
+            innerBags = innerBags
         )
     }
 
@@ -29,16 +33,14 @@ class Parser {
         )
     }
 
-    fun extractInnerBags(innerBags: List<String>): List<InnerBagData> {
+    fun extractInnerBags(innerBags: List<String>): List<Bag?> {
         val innerBagList = innerBags.map { it.split(" ") }
         return innerBagList.map {
-            InnerBagData(
-                bag = Bag(
-                    modifier = it[1],
-                    color = it[2]
-                ),
-                number = it[0].toInt()
-            )
+            if (it.size > 2) {
+                Bag(modifier = it[1], color = it[2])
+            } else {
+                null
+            }
         }
     }
 

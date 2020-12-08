@@ -2,43 +2,28 @@ package day7
 
 import java.io.File
 
-class PuzzleLevelOne {
+class PuzzleLevelOne(private val parser: Parser = Parser()) {
 
-    fun solve(inputFileName: String, level: Int): Int {
+    fun solve(inputFileName: String, bag: Bag,  level: Int): Int {
         val lines = readFileLines(inputFileName)
-        val parsedLogLines = parseLogLines(lines)
-       return 1
+        val parsedLogLines: List<Rule> = parser.parseLogLines(lines)
+        val allOuterBags = getAllOuterBagsForBag(parsedLogLines, bag)
+        return allOuterBags.size
     }
 
-    fun parseLogLines(logLines: List<String>): List<String> {
-        val parsedLogLines = mutableListOf<String>()
-        logLines.forEachIndexed { index: Int, logLine: String ->
-            when {
-                !isGroupDelimiter(logLines, index) && parsedLogLines.isEmpty() -> {
-                    parsedLogLines.add(logLine)
-                }
-                !isGroupDelimiter(logLines, index) && parsedLogLines.isNotEmpty() -> {
-                    val newString = parsedLogLines.last().plus(logLine)
-                    parsedLogLines.removeAt(parsedLogLines.lastIndex)
-                    parsedLogLines.add(newString)
-                }
-                isGroupDelimiter(logLines, index) -> {
-                    parsedLogLines.add(logLine)
-                }
+    fun getOuterBagsForBag(rules: List<Rule>, bag: Bag): List<Bag> {
+        return rules.filter { rule: Rule -> rule.innerBags.contains(bag) }.map { it.outerBag }
+    }
+
+    fun getAllOuterBagsForBag(rules: List<Rule>, bag: Bag): List<Bag> {
+      val allBags = getOuterBagsForBag(rules, bag).toMutableList()
+        for (i in 0..1000) {
+            val currentOuterBags = allBags.map { getOuterBagsForBag(rules, it) }.flatten()
+            currentOuterBags.forEach {
+                if (!allBags.contains(it)) { allBags.add(it) }
             }
         }
-        if (parsedLogLines.last().isBlank()) {
-            parsedLogLines.removeAt(parsedLogLines.size - 1)
-        }
-        return parsedLogLines
-    }
-
-    fun countNumberOfGroupAnswers(input: List<Int>): Int {
-        return input.reduce { acc, i -> acc + i }
-    }
-
-    fun isGroupDelimiter(input: List<String>, indexOfChar: Int): Boolean {
-        return input[indexOfChar].isBlank()
+        return allBags.distinct().sortedBy { it.modifier }
     }
 
     private fun readInputFile(filePath: String): List<String> = File(filePath).readLines()

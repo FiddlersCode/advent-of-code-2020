@@ -1,5 +1,6 @@
 package day6
 
+import java.awt.Color
 import java.io.File
 
 class PuzzleLevelOne {

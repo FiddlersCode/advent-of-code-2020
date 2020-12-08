@@ -1,4 +1,3 @@
-/*
 package day7
 
 import kotlin.test.BeforeTest
@@ -14,125 +13,96 @@ class PuzzleLevelOneTest {
     }
 
     @Test
-    fun parseLogLinesTest1() {
-        val input = listOf(
-            "a",
-            "b",
-            "q",
-            "",
-            "de",
-            "df",
-            "",
-            "xyz",
-            ""
-        )
-
-        val actual = puzzleLevelOne.parseLogLines(input)
-        val expected = listOf(
-            "abq",
-            "dedf",
-            "xyz"
-        )
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun extractGroupsTest1() {
-        val input = listOf(
-            "a",
-            "b",
-            "q",
-            "",
-            "de",
-            "df",
-            "",
-            "xyz",
-            ""
-        )
-
-        val actual = puzzleLevelOne.extractGroups(input)
-        val expected = listOf(
-            SingleGroupAnswers(
-                mutableListOf(
-                    PersonAnswers(
-                        listOf
-                        (
-                            PersonAnswer("a"),
-                            PersonAnswer("b"),
-                            PersonAnswer("q")
-                        )
-                    )
+    fun getOuterBagsForBagTest1() {
+        val rule = listOf(
+            Rule(
+                outerBag = Bag(modifier = "dark", color = "olive"),
+                innerBags = listOf(
+                    Bag(modifier = "shiny", color = "gold"),
+                    Bag(modifier = "vibrant", color = "plum")
                 )
             ),
-            SingleGroupAnswers(
-                mutableListOf(
-                    PersonAnswers(
-                        listOf(
-                            PersonAnswer("d"),
-                            PersonAnswer("e")
-                        )
-                    ),
-                    PersonAnswers(
-                        listOf(
-                            PersonAnswer("d"),
-                            PersonAnswer("f")
-                        )
-                    )
-                )
-            ),
-            SingleGroupAnswers(
-                mutableListOf(
-                    PersonAnswers(
-                        listOf(
-                            PersonAnswer("x"),
-                            PersonAnswer("y"),
-                            PersonAnswer("z")
-                        )
-                    )
+            Rule(
+                outerBag = Bag(modifier = "faded", color = "blue"),
+                innerBags = listOf(
+                    Bag(modifier = "shiny", color = "gold"),
+                    Bag(modifier = "vibrant", color = "plum")
                 )
             )
         )
+
+        val bag = Bag(
+            modifier = "shiny",
+            color = "gold"
+        )
+        val actual = puzzleLevelOne.getOuterBagsForBag(rule, bag)
+        val expected = listOf(
+            Bag(modifier = "dark", color = "olive"),
+            Bag(modifier = "faded", color = "blue")
+        )
         assertEquals(expected, actual)
     }
 
     @Test
-    fun countNumberOfGroupAnswersTest1() {
-        val input = listOf(9, 8, 3, 1)
-        val actual = puzzleLevelOne.countNumberOfGroupAnswers(input)
-        val expected = 21
+    fun getAllOuterBagsForBagTest1() {
+        val rule = listOf(
+            Rule(
+                outerBag = Bag(modifier = "bright", color = "white"),
+                innerBags = listOf(
+                    Bag(modifier = "dark", color = "olive"),
+                    Bag(modifier = "vibrant", color = "plum")
+                )
+            ),
+            Rule(
+                outerBag = Bag(modifier = "dark", color = "olive"),
+                innerBags = listOf(
+                    Bag(modifier = "shiny", color = "gold"),
+                    Bag(modifier = "vibrant", color = "plum")
+                )
+            ),
+            Rule(
+                outerBag = Bag(modifier = "faded", color = "blue"),
+                innerBags = listOf(
+                    Bag(modifier = "shiny", color = "gold"),
+                    Bag(modifier = "vibrant", color = "plum")
+                )
+            )
+        )
+
+        val bag = Bag(modifier = "shiny", color = "gold")
+
+        val actual = puzzleLevelOne.getAllOuterBagsForBag(rule, bag)
+        val expected = listOf(
+            Bag(modifier = "bright", color = "white"),
+            Bag(modifier = "dark", color = "olive"),
+            Bag(modifier = "faded", color = "blue")
+        ).sortedBy { it.modifier }
         assertEquals(expected, actual)
     }
 
     @Test
     fun solveLevel1WithSmallInputTest() {
-        val input = "day6/inputSmall.log"
-        val actual = puzzleLevelOne.solve(input, 1)
-        val expected = 45
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun solveLevel2WithSmallInputTest() {
-        val input = "day6/inputSmaller.log"
-        val actual = puzzleLevelOne.solve(input, 2)
-        val expected = 2
+        val input = "day7/inputSmaller.log"
+        val bag = Bag("muted", "yellow")
+        val actual = puzzleLevelOne.solve(input, bag, 1)
+        val expected = 6
         assertEquals(expected, actual)
     }
 
     @Test
     fun solveTest() {
-        val input = "day6/input.log"
-        val actual = puzzleLevelOne.solve(input, 1)
+        val input = "day7/input.log"
+        val bag = Bag("shiny", "gold")
+        val actual = puzzleLevelOne.solve(input, bag,1)
         val expected = 6748
         assertEquals(expected, actual)
     }
-
-    @Test
-    fun solveLevel2Test() {
-        val input = "day6/input.log"
-        val actual = puzzleLevelOne.solve(input, 2)
-        val expected = 3445
-        assertEquals(expected, actual)
-    }
+//
+//    @Test
+//    fun solveLevel2Test() {
+//        val input = "day6/input.log"
+//        val actual = puzzleLevelOne.solve(input, 2)
+//        val expected = 3445
+//        assertEquals(expected, actual)
+//    }
 }
-*/
