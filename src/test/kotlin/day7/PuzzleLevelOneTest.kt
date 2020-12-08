@@ -94,7 +94,7 @@ class PuzzleLevelOneTest {
         val input = "day7/input.log"
         val bag = Bag("shiny", "gold")
         val actual = puzzleLevelOne.solve(input, bag,1)
-        val expected = 6748
+        val expected = 205
         assertEquals(expected, actual)
     }
 //
